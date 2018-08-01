@@ -1,9 +1,9 @@
 #!/user/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jul 30 23:26:54 2018
+Created on Wed Aug  1 14:38:58 2018
 
-@author: marti
+@author: martin
 """
 
 #%%
@@ -15,22 +15,29 @@ input_file = sys.argv[1]
 output_file = sys.argv[2]
 output_workbook = Workbook()
 output_worksheet = output_workbook.add_sheet('jan_2013_output')
-sale_amount_column_index = 3
+important_date = ['01/24/2013', '01/31/2013']
+purchase_date_column_index = 4
 with open_workbook(input_file) as workbook:
     worksheet = workbook.sheet_by_name('january_2013')
     data = []
     header = worksheet.row_values(0)
     data.append(header)
     for row_index in range(1, worksheet.nrows):
+        purchase_datetime = xldate_as_tuple\
+        (worksheet.cell_value(row_index, purchase_date_column_index), \
+         workbook.datemode)
+        #print(purchase_datetime)
+        purchase_date = date(*purchase_datetime[0:3]).strftime('%m/%d/%Y')
         row_list = []
-        sale_amount = worksheet.cell_value(row_index, sale_amount_column_index)
-        if sale_amount > 1400:
+        if purchase_date in important_date:
             for column_index in range(worksheet.ncols):
                 cell_value = worksheet.cell_value(row_index, column_index)
                 cell_type = worksheet.cell_type(row_index, column_index)
                 if cell_type == 3:
                     date_cell = xldate_as_tuple(cell_value, workbook.datemode)
+                    #print(date_cell)
                     date_cell = date(*date_cell[0:3]).strftime('%m/%d/%Y')
+                    #print(date_cell)
                     row_list.append(date_cell)
                 else:
                     row_list.append(cell_value)
@@ -39,4 +46,6 @@ with open_workbook(input_file) as workbook:
     for list_index, output_list in enumerate(data):
         for element_index, element in enumerate(output_list):
             output_worksheet.write(list_index, element_index, element)
-output_workbook.save(output_file)    
+output_workbook.save(output_file)
+        
+    

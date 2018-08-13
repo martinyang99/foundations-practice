@@ -13,11 +13,12 @@ import sys
 from xlrd import open_workbook
 input_directory = sys.argv[1]
 workbook_counter = 0
-for input_file in glob.glob(os.path.join(input_directory, '*.xls')):
+for input_file in glob.glob(os.path.join(input_directory, '*.xlsx')):
     workbook = open_workbook(input_file)
-    print('Workbook: %s'.format(os.path.basename(input_file)))
-    print('Number of worksheet: %d'.format(workbook.nsheets))
+    print('Workbook: {:s}'.format(os.path.basename(input_file)))
+    print('Number of worksheet: {:d}'.format(workbook.nsheets))
     for worksheet in workbook.sheets():
-        print('Worksheet name:'.format(worksheet.name), '\tRows:'.format(worksheet.nrows),'\tColumns:'.format(worksheet.ncols))
+        print('Worksheet name: {:s}'.format(worksheet.name),\
+              '\tRows: {:d}'.format(worksheet.nrows), '\tColumns: {:d}'.format(worksheet.ncols))
     workbook_counter+=1
-print('Number of Excel Workbooks:'.format(workbook_counter))
+print('Number of Excel workbooks: {:d}'.format(workbook_counter))

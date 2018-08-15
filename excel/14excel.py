@@ -43,6 +43,7 @@ for input_file in glob.glob(os.path.join(input_path, '*.xlsx')):
                     total_sales += 0
                     number_of_sales += 0
             average_sales = '%.2f' % (total_sales/number_of_sales)
+            #average_sales = '{:.2f}'.format(total_sales/number_of_sales)
             worksheet_list.append(total_sales)
             worksheet_list.append(float(average_sales))
             list_of_totals.append(total_sales)
